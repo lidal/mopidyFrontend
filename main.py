@@ -25,11 +25,13 @@ class AlbumItem(QWidget):
         sanTitle = ((title[:27] + '...') if len(title) > 27 else title).replace('&', '&&')
         titleButton = QPushButton(sanTitle)
         titleButton.setStyleSheet("color:#ffffff;")
+        titleButton.clicked.connect(lambda: self.play(uri))
 
         artist = artist.replace('&', '&&')
         
         artistButton = QPushButton(artist)
         artistButton.setStyleSheet("color:#a3a3a3")
+        artistButton.clicked.connect(lambda: self.play(uri))
 
         layout.addWidget(albumButton)
         layout.addWidget(titleButton)
@@ -79,9 +81,12 @@ class mainWindow(QMainWindow):
             hbox.addWidget(albumItem)
             if albumNr%2==1:
                 self.vbox.addLayout(hbox)
+        #add the last album if there is an odd number of albums
+        if(albumNr%2==0):
+            self.vbox.addLayout(hbox)
 
         self.widget.setLayout(self.vbox)
-        self.vbox.setContentsMargins(25, 0, 0, 0)
+        self.vbox.setContentsMargins(25, 25, 0, 25)
         #Scroll Area Properties
         self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
